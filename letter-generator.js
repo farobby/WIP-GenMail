@@ -120,9 +120,9 @@ export function buildLetterHtml(data) {
     : '[Pilih Kategori]';
 
   let jumlahHari = '[Jumlah]';
-  if (kategori === 'ringan') jumlahHari = '5 (lima)';
-  else if (kategori === 'sedang') jumlahHari = '7 (tujuh)';
-  else if (kategori === 'berat') jumlahHari = '14 (empat belas)';
+  if (kategori === 'ringan') jumlahHari = '10 (sepuluh)';
+  else if (kategori === 'sedang') jumlahHari = '20 (dua puluh)';
+  else if (kategori === 'berat') jumlahHari = '30 (tiga puluh)';
 
   if (data.jenisSuratTemplate === 'teguran') {
     halStr = 'Teguran Pelanggaran';
