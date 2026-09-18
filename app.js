@@ -1,4 +1,4 @@
-import { buildLetterHtmlFull } from './letter-generator.js';
+import { buildLetterHtmlFull } from './letter-generator.js?v=2';
 
 const KPPG_MAP = {
   "Sumatera Utara": "Medan",
@@ -89,7 +89,7 @@ window.downloadWord = function downloadWord() {
   fetch('letter-styles.css')
     .then(res => res.text())
     .then(css => {
-      const fullHtml = \`<!DOCTYPE html><html><head><meta charset="utf-8"><style>\${css}</style></head><body>\${area.innerHTML}</body></html>\`;
+      const fullHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${area.innerHTML}</body></html>`;
       const converted = window.htmlDocx.asBlob(fullHtml);
       const url = URL.createObjectURL(converted);
       const a = document.createElement('a');
