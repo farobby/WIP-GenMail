@@ -11,6 +11,7 @@
  *   // lalu render masing-masing dengan dangerouslySetInnerHTML, atau
  *   // convert ke JSX kalau mau full-React (lihat catatan di bawah).
  */
+import { LOGO_BASE64 } from './logo-base64.js';
 
 // ---------- Util ----------
 
@@ -93,23 +94,30 @@ export function buildLetterHtml(data) {
     ? `Para Kepala Satuan Pelayanan Pemenuhan Gizi (SPPG) <span class="placeholder-fill">(Daftar Terlampir)</span>`
     : `Kepala Satuan Pelayanan Pemenuhan Gizi (SPPG) ${firstNama}`;
 
+  // Layout Kop Surat (menggunakan table agar rapi di Word)
   const kop = `
-    <div class="kop">
-      <img class="crest" src="${logoSrc}" alt="Logo BGN">
-      <div>
-        <div class="org-name">BADAN GIZI NASIONAL (<i>NATIONAL NUTRITION AGENCY</i>)</div>
-        <div class="org-addr">Jalan Kebon Sirih No.1 RT.1 RW.7 Kebon Sirih, Kec. Menteng,<br>Kota Jakarta Pusat, Daerah Khusus Jakarta 10340</div>
-      </div>
-    </div>
+    <table class="kop-table" style="width:100%; border-collapse:collapse; margin-bottom:6px;">
+      <tr>
+        <td style="width:80px; vertical-align:middle; padding-right:16px;">
+          <img class="crest" src="${LOGO_BASE64}" alt="Logo BGN" width="78" height="78">
+        </td>
+        <td style="vertical-align:middle;">
+          <div class="org-name">BADAN GIZI NASIONAL <i>(NATIONAL NUTRITION AGENCY)</i></div>
+          <div class="org-addr">Jalan Kebon Sirih No.1 RT.1 RW.7 Kebon Sirih, Kec. Menteng,<br>Kota Jakarta Pusat, Daerah Khusus Jakarta 10340</div>
+        </td>
+      </tr>
+    </table>
     <div class="kop-rule"></div>
-    <div class="kop-rule second"></div>`;
+    <div class="kop-rule second"></div>
+  `;
 
   const ythDiv = `
-      <div class="yth">
-        Yth.<br>
-        ${ythLine}<br>
-        di Provinsi ${provinsi}
-      </div>`;
+    <div class="yth">
+      Yth.<br>
+      Kepala Satuan Pelayanan Pemenuhan Gizi (SPPG) <b>${fieldOrPlaceholder(firstNama, 'nama SPPG')}</b><br>
+      di Provinsi <b>${fieldOrPlaceholder(data.provinsi, 'provinsi')}</b>
+    </div>
+  `;
 
   let halStr = 'Pencabutan Pemberhentian Operasional Sementara';
   let mainContent = '';
@@ -217,30 +225,52 @@ export function buildLetterHtml(data) {
   const page1 = `
     <div class="sheet">
       ${kop}
-      <div class="meta">
-        <div class="meta-first">
-          <div style="display:flex;">
-            <div class="meta-row"><span class="k">Nomor</span><span class="sep">:</span></div>
-            <span>\${nomor_naskah}</span>
-          </div>
-          <div>Jakarta, ${tglSurat}</div>
-        </div>
-        <div class="meta-row"><span class="k">Sifat</span><span class="sep">:</span><span>Segera</span></div>
-        <div class="meta-row"><span class="k">Lampiran</span><span class="sep">:</span><span>1 (satu) Berkas</span></div>
-        <div class="meta-row"><span class="k">Hal</span><span class="sep">:</span><span>${halStr}</span></div>
+      <div class="meta" style="margin-bottom: 14px;">
+        <table style="width:100%; border-collapse:collapse; font-size:11pt;">
+          <tr>
+            <td style="width:82px; vertical-align:top;">Nomor</td>
+            <td style="width:12px; vertical-align:top;">:</td>
+            <td style="vertical-align:top;">\${nomor_naskah}</td>
+            <td style="text-align:right; vertical-align:top;">Jakarta, ${tglSurat}</td>
+          </tr>
+          <tr>
+            <td style="vertical-align:top;">Sifat</td>
+            <td style="vertical-align:top;">:</td>
+            <td colspan="2" style="vertical-align:top;">Segera</td>
+          </tr>
+          <tr>
+            <td style="vertical-align:top;">Lampiran</td>
+            <td style="vertical-align:top;">:</td>
+            <td colspan="2" style="vertical-align:top;">1 (satu) Berkas</td>
+          </tr>
+          <tr>
+            <td style="vertical-align:top;">Hal</td>
+            <td style="vertical-align:top;">:</td>
+            <td colspan="2" style="vertical-align:top;">${halStr}</td>
+          </tr>
+        </table>
       </div>
       ${ythDiv}
       ${mainContent}
     </div>`;
 
+  const signBlockTable = `
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
+      <tr>
+        <td style="width:55%;"></td>
+        <td style="width:45%; text-align:left; vertical-align:top;">
+          <div class="role" style="margin-bottom:56px;">Deputi Bidang Pemantauan dan Pengawasan,</div>
+          <div>\${ttd_pengirim}</div>
+          <div style="margin-top:6px;"><b>Dr. Ketut Sumedana</b></div>
+        </td>
+      </tr>
+    </table>
+  `;
+
   const page2 = `
     <div class="sheet">
-      <div class="page-number">- 2 -</div>
-      <div class="sign-block">
-        <div class="role">Deputi Bidang Pemantauan dan Pengawasan,</div>
-        <div>\${ttd_pengirim}</div>
-        <div style="margin-top:6px;"><b>Dr. Ketut Sumedana</b></div>
-      </div>
+      <p style="text-align:center; font-size:11pt; margin-bottom: 40px;">- 2 -</p>
+      ${signBlockTable}
       <div class="tembusan">
         Tembusan Yth.:
         <ol>
@@ -267,23 +297,27 @@ export function buildLetterHtml(data) {
 
   const page3 = `
     <div class="sheet ${isMulti ? 'landscape' : ''}">
-      <div class="page-number">- 3 -</div>
-      <div class="lampiran-head" style="margin-top:60px;">
-        Lampiran Surat Deputi Bidang<br>
-        Pemantauan dan Pengawasan<br>
-        Nomor&nbsp;&nbsp;&nbsp;: \${nomor_naskah}<br>
-        Tanggal&nbsp;&nbsp;: ${tglSurat}
-      </div>
-      <div class="lampiran-title">SPPG YANG DICABUT PEMBERHENTIAN OPERASIONAL SEMENTARA</div>
+      <p style="text-align:center; font-size:11pt; margin-bottom: 40px;">- 3 -</p>
+      <table style="width:100%; border-collapse:collapse; margin-bottom:14px; font-size:11pt;">
+        <tr>
+          <td style="width:55%;"></td>
+          <td style="width:45%; text-align:left; vertical-align:top;">
+            Lampiran Surat Deputi Bidang<br>
+            Pemantauan dan Pengawasan<br>
+            <table style="width:100%; border-collapse:collapse;">
+              <tr><td style="width:60px;">Nomor</td><td style="width:12px;">:</td><td>\${nomor_naskah}</td></tr>
+              <tr><td>Tanggal</td><td>:</td><td>${tglSurat}</td></tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      
+      <div class="lampiran-title">SPPG YANG DIBERHENTIKAN OPERASIONAL SEMENTARA DENGAN KATEGORI ${kategori.toUpperCase()} (PILIH)</div>
       <table class="lampiran">
         <tr><th>No.</th><th>Nama SPPG</th><th>ID SPPG</th><th>Nama Yayasan</th><th>Tanggal Operasional</th><th>Kategori</th></tr>
         ${rows}
       </table>
-      <div class="sign-block">
-        <div class="role">Deputi Bidang Pemantauan dan Pengawasan,</div>
-        <div>\${ttd_pengirim}</div>
-        <div style="margin-top:6px;"><b>Dr. Ketut Sumedana</b></div>
-      </div>
+      ${signBlockTable}
     </div>`;
 
   return { page1, page2, page3 };
