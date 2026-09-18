@@ -53,6 +53,7 @@ export function frasaKategori(kategori) {
 }
 
 // ---------- Data shape ----------
+/**
  * @typedef {Object} SppgItem
  * @property {string} nama
  * @property {string} id

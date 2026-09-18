@@ -107,7 +107,12 @@ window.downloadWord = function downloadWord() {
 };
 
 // Initial render
-document.addEventListener('DOMContentLoaded', () => {
-  renderSppgRows();
-  render();
-});
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    window.renderSppgRows();
+    window.render();
+  });
+} else {
+  window.renderSppgRows();
+  window.render();
+}
