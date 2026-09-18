@@ -22,21 +22,31 @@ const TEMPLATE_DASAR = {
   pencabutan: [
     "Keputusan Kepala Badan Gizi Nasional Nomor 401.1 Tahun 2025 tentang Petunjuk Teknis Tata Kelola Penyelenggaraan Program Makan Bergizi Gratis (MBG) Tahun 2026;",
     "Keputusan Kepala Badan Gizi Nasional Republik Indonesia Nomor 63486 Tahun 2026 tentang Petunjuk Teknis Pengenaan Sanksi pada Satuan Pelayanan Pemenuhan Gizi;",
-    "Surat Deputi Bidang Pemantauan dan Pengawasan Nomor [Nomor Surat] tanggal [Tanggal Surat] hal Pemberhentian Operasional Sementara (Suspend);",
-    "Nota Dinas Kepala Kantor Pelayanan Pemenuhan Gizi [Nama KPPG] Nomor [Nomor Nota Dinas] tanggal [Tanggal Nota Dinas] hal Permohonan Operasional Kembali SPPG [Nama SPPG]."
+    "Surat Deputi Bidang Pemantauan dan Pengawasan Nomor [Nomor Surat] tanggal [Tanggal Surat] hal Pemberhentian Operasional Sementara;",
+    "Nota Dinas Kepala Kantor Pelayanan Pemenuhan Gizi [Nama KPPG] Nomor [Nomor Nota Dinas] tanggal [Tanggal Nota Dinas] hal Permohonan Pencabutan Pemberhentian Operasional Sementara;"
   ],
   teguran: [
-    "[Placeholder Dasar 1 untuk Surat Teguran]",
-    "[Placeholder Dasar 2 untuk Surat Teguran]"
+    "Nota Dinas Kepala KPPG Nomor [Nomor Nota Dinas] tanggal [Tanggal Nota Dinas] hal [Hal Nota Dinas];",
+    "Laporan SPPG [Nama SPPG] Nomor [Nomor Laporan] tanggal [Tanggal Laporan] hal [Hal Laporan]."
   ],
   suspend_kf: [
-    "[Placeholder Dasar 1 untuk Surat Pemberhentian Ops KF]"
+    "Keputusan Kepala Badan Gizi Nasional Nomor 401.1 Tahun 2025 tentang Petunjuk Teknis Tata Kelola Penyelenggaraan Program Makan Bergizi Gratis (MBG) Tahun 2026;",
+    "Keputusan Kepala Badan Gizi Nasional Republik Indonesia Nomor 63486 Tahun 2026 tentang Petunjuk Teknis Pengenaan Sanksi pada Satuan Pelayanan Pemenuhan Gizi;",
+    "Laporan [Nama Laporan] terkait Kejadian Fatal [Uraikan Kejadian] tanggal [Tanggal Kejadian] hal Kejadian Fatal."
   ],
   suspend_km: [
-    "[Placeholder Dasar 1 untuk Surat Pemberhentian Ops KM]"
+    "Keputusan Kepala Badan Gizi Nasional Nomor 401.1 Tahun 2025 tentang Petunjuk Teknis Tata Kelola Penyelenggaraan Program Makan Bergizi Gratis (MBG) Tahun 2026;",
+    "Keputusan Kepala Badan Gizi Nasional Republik Indonesia Nomor 63486 Tahun 2026 tentang Petunjuk Teknis Pengenaan Sanksi pada Satuan Pelayanan Pemenuhan Gizi;",
+    "Nota Dinas Kepala KPPG [Nama KPPG] Nomor [Nomor Nota Dinas] tanggal [Tanggal Nota Dinas] hal [Hal Nota Dinas];",
+    "Laporan Khusus Kepala SPPG [Nama SPPG] Nomor [Nomor Laporan] tanggal [Tanggal Laporan] hal [Hal Laporan]."
   ],
   eskalasi_km: [
-    "[Placeholder Dasar 1 untuk Surat Eskalasi KM]"
+    "Keputusan Kepala Badan Gizi Nasional Nomor 401.1 Tahun 2025 tentang Petunjuk Teknis Tata Kelola Penyelenggaraan Program Makan Bergizi Gratis (MBG) Tahun 2026;",
+    "Keputusan Kepala Badan Gizi Nasional Republik Indonesia Nomor 63486 Tahun 2026 tentang Petunjuk Teknis Pengenaan Sanksi pada Satuan Pelayanan Pemenuhan Gizi;",
+    "Berita Acara Perbaikan (BAP) Nomor [Nomor BAP] tanggal [Tanggal BAP];",
+    "Surat Kepala SPPG [Nama SPPG] Nomor [Nomor Surat] tanggal [Tanggal Surat] hal Permohonan Pencabutan Pemberhentian Operasional Sementara;",
+    "Nota Dinas Kepala KPPG [Nama KPPG] Nomor [Nomor Nota Dinas] tanggal [Tanggal Nota Dinas] hal [Hal Nota Dinas];",
+    "Laporan Khusus [Judul Laporan] tanggal [Tanggal Laporan] perihal [Hal Laporan]."
   ]
 };
 

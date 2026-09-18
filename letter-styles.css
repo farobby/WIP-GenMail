@@ -72,7 +72,7 @@
   ol.sub{margin:8px 0 0 0;padding-left:24px;list-style-type:lower-alpha;}
   ol.sub > li{margin-bottom:7px;text-align:justify;}
   .placeholder-fill{color:#b45309;font-weight:600;}
-  .sign-block{margin-top:22px;text-align:right;}
+  .sign-block{margin-top:30px;margin-left:55%;text-align:left;}
   .sign-block .role{margin-bottom:56px;}
   table.lampiran{width:100%;border-collapse:collapse;margin:14px 0 18px;font-size:10.5pt;}
   table.lampiran th, table.lampiran td{border:1px solid #111;padding:6px 8px;text-align:center;}
