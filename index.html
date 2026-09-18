@@ -17,6 +17,18 @@
     <h2>Data Surat</h2>
     <form id="f">
       <fieldset>
+        <legend>Template Surat</legend>
+        <label>Pilih Jenis Surat</label>
+        <select id="jenisSuratTemplate" onchange="changeTemplate()">
+          <option value="pencabutan">Surat Pencabutan Pemberhentian Operasional Sementara</option>
+          <option value="teguran">Surat Teguran</option>
+          <option value="suspend_kf">Surat Pemberhentian Ops KF</option>
+          <option value="suspend_km">Surat Pemberhentian Ops KM</option>
+          <option value="eskalasi_km">Surat Eskalasi KM</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
         <legend>Umum</legend>
         <label>Tanggal surat</label>
         <input type="date" id="tglSurat" value="2026-09-10">

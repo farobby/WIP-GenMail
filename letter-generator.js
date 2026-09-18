@@ -104,6 +104,71 @@ export function buildLetterHtml(data) {
     <div class="kop-rule"></div>
     <div class="kop-rule second"></div>`;
 
+  const ythDiv = `
+      <div class="yth">
+        Yth.<br>
+        ${ythLine}<br>
+        di Provinsi ${provinsi}
+      </div>`;
+
+  let halStr = 'Pencabutan Pemberhentian Operasional Sementara';
+  let mainContent = '';
+  const dasarHtml = `<ol class="sub">\n            ${(data.dasarList || []).map(text => `<li>${fieldOrPlaceholder(text, 'Teks dasar kosong')}</li>`).join('\n            ')}\n          </ol>`;
+
+  if (data.jenisSuratTemplate === 'teguran') {
+    halStr = 'Teguran Pelanggaran';
+    mainContent = `
+      <ol class="main">
+        <li>Dasar
+          ${dasarHtml}
+        </li>
+        <li>[MASUKKAN PARAGRAF TEGURAN DI SINI]</li>
+        <li>[MASUKKAN PARAGRAF PENUTUP TEGURAN DI SINI]</li>
+      </ol>`;
+  } else if (data.jenisSuratTemplate === 'suspend_kf') {
+    halStr = 'Pemberhentian Operasional Sementara (Kejadian Fatal)';
+    mainContent = `
+      <ol class="main">
+        <li>Dasar
+          ${dasarHtml}
+        </li>
+        <li>[MASUKKAN PARAGRAF SUSPEND KF DI SINI]</li>
+        <li>[MASUKKAN PARAGRAF PENUTUP SUSPEND KF DI SINI]</li>
+      </ol>`;
+  } else if (data.jenisSuratTemplate === 'suspend_km') {
+    halStr = 'Pemberhentian Operasional Sementara (Kejadian Menonjol)';
+    mainContent = `
+      <ol class="main">
+        <li>Dasar
+          ${dasarHtml}
+        </li>
+        <li>[MASUKKAN PARAGRAF SUSPEND KM DI SINI]</li>
+        <li>[MASUKKAN PARAGRAF PENUTUP SUSPEND KM DI SINI]</li>
+      </ol>`;
+  } else if (data.jenisSuratTemplate === 'eskalasi_km') {
+    halStr = 'Eskalasi Kejadian Menonjol';
+    mainContent = `
+      <ol class="main">
+        <li>Dasar
+          ${dasarHtml}
+        </li>
+        <li>[MASUKKAN PARAGRAF ESKALASI KM DI SINI]</li>
+        <li>[MASUKKAN PARAGRAF PENUTUP ESKALASI KM DI SINI]</li>
+      </ol>`;
+  } else {
+    // Default: Pencabutan
+    halStr = 'Pencabutan Pemberhentian Operasional Sementara';
+    mainContent = `
+      <ol class="main">
+        <li>Dasar
+          ${dasarHtml}
+        </li>
+        <li>Menindaklanjuti hasil verifikasi Kepala KPPG ${namaKppg}, SPPG terlampir ${frasa} dinyatakan <b>Telah Memenuhi</b> seluruh rekomendasi perbaikan yang dipersyaratkan.</li>
+        <li>Terhitung mulai dari tanggal surat ini dikeluarkan, status <b>Pemberhentian Operasional Sementara DICABUT</b> dan dinyatakan dapat beroperasi kembali secara normal dengan segala hak operasionalnya sesuai peraturan perundang-undangan yang berlaku.</li>
+        <li>Dalam rangka penegakan integritas dan tata kelola pemerintahan yang bersih, seluruh jajaran Kedeputian Bidang Pemantauan dan Pengawasan dalam menjalankan tugas dan fungsinya <b>tidak menerima dan tidak meminta imbalan, hadiah, atau gratifikasi dalam bentuk apapun</b>. Seluruh layanan dan proses administrasi dilaksanakan secara profesional, transparan, dan bebas dari biaya.</li>
+      </ol>`;
+  }
+
   const page1 = `
     <div class="sheet">
       ${kop}
@@ -117,23 +182,10 @@ export function buildLetterHtml(data) {
         </div>
         <div class="meta-row"><span class="k">Sifat</span><span class="sep">:</span><span>Segera</span></div>
         <div class="meta-row"><span class="k">Lampiran</span><span class="sep">:</span><span>1 (satu) Berkas</span></div>
-        <div class="meta-row"><span class="k">Hal</span><span class="sep">:</span><span>Pencabutan Pemberhentian Operasional Sementara</span></div>
+        <div class="meta-row"><span class="k">Hal</span><span class="sep">:</span><span>${halStr}</span></div>
       </div>
-      <div class="yth">
-        Yth.<br>
-        ${ythLine}<br>
-        di Provinsi ${provinsi}
-      </div>
-      <ol class="main">
-        <li>Dasar
-          <ol class="sub">
-            ${(data.dasarList || []).map(text => `<li>${fieldOrPlaceholder(text, 'Teks dasar kosong')}</li>`).join('\n            ')}
-          </ol>
-        </li>
-        <li>Menindaklanjuti hasil verifikasi Kepala KPPG ${namaKppg}, SPPG terlampir ${frasa} dinyatakan <b>Telah Memenuhi</b> seluruh rekomendasi perbaikan yang dipersyaratkan.</li>
-        <li>Terhitung mulai dari tanggal surat ini dikeluarkan, status <b>Pemberhentian Operasional Sementara DICABUT</b> dan dinyatakan dapat beroperasi kembali secara normal dengan segala hak operasionalnya sesuai peraturan perundang-undangan yang berlaku.</li>
-        <li>Dalam rangka penegakan integritas dan tata kelola pemerintahan yang bersih, seluruh jajaran Kedeputian Bidang Pemantauan dan Pengawasan dalam menjalankan tugas dan fungsinya <b>tidak menerima dan tidak meminta imbalan, hadiah, atau gratifikasi dalam bentuk apapun</b>. Seluruh layanan dan proses administrasi dilaksanakan secara profesional, transparan, dan bebas dari biaya.</li>
-      </ol>
+      ${ythDiv}
+      ${mainContent}
     </div>`;
 
   const page2 = `

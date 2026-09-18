@@ -18,12 +18,36 @@ window.sppgList = [
   { nama: '', id: '', yayasan: '', tglOperasional: '', jenis: 'KM' }
 ];
 
-window.dasarList = [
-  "Keputusan Kepala Badan Gizi Nasional Nomor 401.1 Tahun 2025 tentang Petunjuk Teknis Tata Kelola Penyelenggaraan Program Makan Bergizi Gratis (MBG) Tahun 2026;",
-  "Keputusan Kepala Badan Gizi Nasional Republik Indonesia Nomor 63486 Tahun 2026 tentang Petunjuk Teknis Pengenaan Sanksi pada Satuan Pelayanan Pemenuhan Gizi;",
-  "Surat Deputi Bidang Pemantauan dan Pengawasan Nomor [Nomor Surat] tanggal [Tanggal Surat] hal Pemberhentian Operasional Sementara (Suspend);",
-  "Nota Dinas Kepala Kantor Pelayanan Pemenuhan Gizi [Nama KPPG] Nomor [Nomor Nota Dinas] tanggal [Tanggal Nota Dinas] hal Permohonan Operasional Kembali SPPG [Nama SPPG]."
-];
+const TEMPLATE_DASAR = {
+  pencabutan: [
+    "Keputusan Kepala Badan Gizi Nasional Nomor 401.1 Tahun 2025 tentang Petunjuk Teknis Tata Kelola Penyelenggaraan Program Makan Bergizi Gratis (MBG) Tahun 2026;",
+    "Keputusan Kepala Badan Gizi Nasional Republik Indonesia Nomor 63486 Tahun 2026 tentang Petunjuk Teknis Pengenaan Sanksi pada Satuan Pelayanan Pemenuhan Gizi;",
+    "Surat Deputi Bidang Pemantauan dan Pengawasan Nomor [Nomor Surat] tanggal [Tanggal Surat] hal Pemberhentian Operasional Sementara (Suspend);",
+    "Nota Dinas Kepala Kantor Pelayanan Pemenuhan Gizi [Nama KPPG] Nomor [Nomor Nota Dinas] tanggal [Tanggal Nota Dinas] hal Permohonan Operasional Kembali SPPG [Nama SPPG]."
+  ],
+  teguran: [
+    "[Placeholder Dasar 1 untuk Surat Teguran]",
+    "[Placeholder Dasar 2 untuk Surat Teguran]"
+  ],
+  suspend_kf: [
+    "[Placeholder Dasar 1 untuk Surat Pemberhentian Ops KF]"
+  ],
+  suspend_km: [
+    "[Placeholder Dasar 1 untuk Surat Pemberhentian Ops KM]"
+  ],
+  eskalasi_km: [
+    "[Placeholder Dasar 1 untuk Surat Eskalasi KM]"
+  ]
+};
+
+window.dasarList = [...TEMPLATE_DASAR.pencabutan];
+
+window.changeTemplate = function changeTemplate() {
+  const jenis = document.getElementById('jenisSuratTemplate').value;
+  window.dasarList = [...(TEMPLATE_DASAR[jenis] || [])];
+  window.renderDasarRows();
+  window.render();
+};
 
 window.updateKppg = function updateKppg() {
   const prov = document.getElementById('provinsi').value;
@@ -89,6 +113,7 @@ window.removeDasarRow = function removeDasarRow(i) {
 
 window.render = function render() {
   const data = {
+    jenisSuratTemplate: document.getElementById('jenisSuratTemplate').value,
     tglSurat: document.getElementById('tglSurat').value,
     provinsi: document.getElementById('provinsi').value,
     kategoriSurat: document.getElementById('kategoriSurat').value,
