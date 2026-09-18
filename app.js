@@ -152,12 +152,15 @@ window.downloadWord = function downloadWord() {
   fetch('letter-styles.css')
     .then(res => res.text())
     .then(css => {
-      const fullHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${area.innerHTML}</body></html>`;
+      // Hanya ambil elemen dengan class .sheet (buang toolbar dll)
+      const sheets = Array.from(area.querySelectorAll('.sheet')).map(el => el.outerHTML).join('\\n<br style="page-break-before: always; clear: both;" />\\n');
+      
+      const fullHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${sheets}</body></html>`;
       const converted = window.htmlDocx.asBlob(fullHtml);
       const url = URL.createObjectURL(converted);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'Surat_Pencabutan_Operasional_Sementara.doc';
+      a.download = 'Surat_Pemberhentian_Operasional_Sementara.docx';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
