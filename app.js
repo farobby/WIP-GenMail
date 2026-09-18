@@ -39,7 +39,7 @@ window.renderSppgRows = function renderSppgRows() {
       <input type="text" value="${row.tglOperasional}" placeholder="Contoh: 25 Februari 2026" oninput="window.sppgList[${i}].tglOperasional=this.value">
       <label>Jenis (kategori tabel)</label>
       <select onchange="window.sppgList[${i}].jenis=this.value">
-        <option value="KM" ${row.jenis === 'KM' ? 'selected' : ''}>KM — Kejadian Membahayakan</option>
+        <option value="KM" ${row.jenis === 'KM' ? 'selected' : ''}>KM — Kejadian Menonjol</option>
         <option value="KF" ${row.jenis === 'KF' ? 'selected' : ''}>KF — Kejadian Fatal</option>
       </select>
     </div>
@@ -83,7 +83,7 @@ window.render = function render() {
 
 window.downloadWord = function downloadWord() {
   const area = document.getElementById('previewArea');
-  
+
   // Karena export Word membutuhkan inline styling atau block <style>,
   // kita fetch css-nya lalu diembed langsung sebelum convert blob
   fetch('letter-styles.css')
