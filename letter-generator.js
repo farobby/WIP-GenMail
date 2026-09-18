@@ -312,7 +312,7 @@ export function buildLetterHtml(data) {
         </tr>
       </table>
       
-      <div class="lampiran-title">SPPG YANG DIBERHENTIKAN OPERASIONAL SEMENTARA DENGAN KATEGORI ${kategori.toUpperCase()} (PILIH)</div>
+      <div class="lampiran-title">${data.jenisSuratTemplate === 'pencabutan' ? 'SPPG YANG DICABUT PEMBERHENTIAN OPERASIONAL SEMENTARA' : `SPPG YANG DIBERHENTIKAN OPERASIONAL SEMENTARA DENGAN KATEGORI ${kategori.toUpperCase()} (PILIH)`}</div>
       <table class="lampiran">
         <tr><th>No.</th><th>Nama SPPG</th><th>ID SPPG</th><th>Nama Yayasan</th><th>Tanggal Operasional</th><th>Kategori</th></tr>
         ${rows}
