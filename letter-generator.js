@@ -82,11 +82,7 @@ export function frasaKategori(kategori) {
 export function buildLetterHtml(data) {
   const tglSurat = data.tglSurat ? formatTanggalIndo(data.tglSurat) : '<span class="placeholder-fill">[tanggal surat]</span>';
   const provinsi = fieldOrPlaceholder(data.provinsi, 'provinsi');
-  const noSuspend = fieldOrPlaceholder(data.noSuspend, 'nomor surat suspend');
-  const tglSuspend = fieldOrPlaceholder(data.tglSuspend, 'tanggal surat suspend');
   const namaKppg = fieldOrPlaceholder(data.namaKppg, 'KPPG');
-  const noND = fieldOrPlaceholder(data.noND, 'nomor Nota Dinas');
-  const tglND = fieldOrPlaceholder(data.tglND, 'tanggal Nota Dinas');
   const logoSrc = data.logoSrc || '/logo-bgn.png';
   const frasa = frasaKategori(data.kategoriSurat);
   const sppgList = data.sppgList || [];
@@ -131,13 +127,10 @@ export function buildLetterHtml(data) {
       <ol class="main">
         <li>Dasar
           <ol class="sub">
-            <li>Keputusan Kepala Badan Gizi Nasional Nomor 401.1 Tahun 2025 tentang Petunjuk Teknis Tata Kelola Penyelenggaraan Program Makan Bergizi Gratis (MBG) Tahun 2026;</li>
-            <li>Keputusan Kepala Badan Gizi Nasional Republik Indonesia Nomor 63486 Tahun 2026 tentang Petunjuk Teknis Pengenaan Sanksi pada Satuan Pelayanan Pemenuhan Gizi;</li>
-            <li>Surat Deputi Bidang Pemantauan dan Pengawasan Nomor ${noSuspend} tanggal ${tglSuspend} hal Pemberhentian Operasional Sementara (Suspend);</li>
-            <li>Nota Dinas Kepala Kantor Pelayanan Pemenuhan Gizi ${namaKppg} Nomor ${noND} tanggal ${tglND} hal Permohonan Operasional Kembali SPPG ${isMulti ? '(Daftar Terlampir)' : firstNama}.</li>
+            ${(data.dasarList || []).map(text => `<li>${fieldOrPlaceholder(text, 'Teks dasar kosong')}</li>`).join('\n            ')}
           </ol>
         </li>
-        <li>Menindaklanjuti hasil verifikasi Kepala KPPG ${frasa}, SPPG terlampir dinyatakan <b>Telah Memenuhi</b> seluruh rekomendasi perbaikan yang dipersyaratkan.</li>
+        <li>Menindaklanjuti hasil verifikasi Kepala KPPG ${namaKppg}, SPPG terlampir ${frasa} dinyatakan <b>Telah Memenuhi</b> seluruh rekomendasi perbaikan yang dipersyaratkan.</li>
         <li>Terhitung mulai dari tanggal surat ini dikeluarkan, status <b>Pemberhentian Operasional Sementara DICABUT</b> dan dinyatakan dapat beroperasi kembali secara normal dengan segala hak operasionalnya sesuai peraturan perundang-undangan yang berlaku.</li>
         <li>Dalam rangka penegakan integritas dan tata kelola pemerintahan yang bersih, seluruh jajaran Kedeputian Bidang Pemantauan dan Pengawasan dalam menjalankan tugas dan fungsinya <b>tidak menerima dan tidak meminta imbalan, hadiah, atau gratifikasi dalam bentuk apapun</b>. Seluruh layanan dan proses administrasi dilaksanakan secara profesional, transparan, dan bebas dari biaya.</li>
       </ol>

@@ -56,19 +56,9 @@
       </fieldset>
 
       <fieldset>
-        <legend>Dasar (c) — Surat suspend sebelumnya</legend>
-        <label>Nomor surat</label>
-        <input type="text" id="noSuspend" placeholder="Contoh: 3996/D.TWS/09/2026">
-        <label>Tanggal surat</label>
-        <input type="text" id="tglSuspend" placeholder="Contoh: 4 September 2026">
-      </fieldset>
-
-      <fieldset>
-        <legend>Dasar (d) — Nota Dinas KPPG</legend>
-        <label>Nomor Nota Dinas</label>
-        <input type="text" id="noND" placeholder="Contoh: ND-448/06.01.01/09/2026/KPPG">
-        <label>Tanggal Nota Dinas</label>
-        <input type="text" id="tglND" placeholder="Contoh: 9 September 2026">
+        <legend>Dasar Surat</legend>
+        <div id="dasarRows"></div>
+        <button type="button" class="add-row-btn" onclick="addDasarRow()">+ Tambah Dasar</button>
       </fieldset>
 
       <fieldset>

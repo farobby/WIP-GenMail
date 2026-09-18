@@ -18,6 +18,13 @@ window.sppgList = [
   { nama: '', id: '', yayasan: '', tglOperasional: '', jenis: 'KM' }
 ];
 
+window.dasarList = [
+  "Keputusan Kepala Badan Gizi Nasional Nomor 401.1 Tahun 2025 tentang Petunjuk Teknis Tata Kelola Penyelenggaraan Program Makan Bergizi Gratis (MBG) Tahun 2026;",
+  "Keputusan Kepala Badan Gizi Nasional Republik Indonesia Nomor 63486 Tahun 2026 tentang Petunjuk Teknis Pengenaan Sanksi pada Satuan Pelayanan Pemenuhan Gizi;",
+  "Surat Deputi Bidang Pemantauan dan Pengawasan Nomor [Nomor Surat] tanggal [Tanggal Surat] hal Pemberhentian Operasional Sementara (Suspend);",
+  "Nota Dinas Kepala Kantor Pelayanan Pemenuhan Gizi [Nama KPPG] Nomor [Nomor Nota Dinas] tanggal [Tanggal Nota Dinas] hal Permohonan Operasional Kembali SPPG [Nama SPPG]."
+];
+
 window.updateKppg = function updateKppg() {
   const prov = document.getElementById('provinsi').value;
   document.getElementById('namaKppg').value = KPPG_MAP[prov] || '';
@@ -56,17 +63,38 @@ window.removeSppgRow = function removeSppgRow(i) {
   renderSppgRows();
 };
 
+window.renderDasarRows = function renderDasarRows() {
+  const wrap = document.getElementById('dasarRows');
+  if (!wrap) return;
+  wrap.innerHTML = window.dasarList.map((text, i) => `
+    <div class="sppg-card" style="margin-bottom: 10px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 5px;">
+        <strong style="color: #0f172a;">Dasar #${i + 1}</strong>
+        ${window.dasarList.length > 1 ? `<button type="button" class="remove-row" onclick="removeDasarRow(${i})">Hapus</button>` : ''}
+      </div>
+      <textarea rows="3" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-family: inherit;" oninput="window.dasarList[${i}]=this.value">${text}</textarea>
+    </div>
+  `).join('');
+};
+
+window.addDasarRow = function addDasarRow() {
+  window.dasarList.push("");
+  window.renderDasarRows();
+};
+
+window.removeDasarRow = function removeDasarRow(i) {
+  window.dasarList.splice(i, 1);
+  window.renderDasarRows();
+};
+
 window.render = function render() {
   const data = {
     tglSurat: document.getElementById('tglSurat').value,
     provinsi: document.getElementById('provinsi').value,
     kategoriSurat: document.getElementById('kategoriSurat').value,
-    noSuspend: document.getElementById('noSuspend').value,
-    tglSuspend: document.getElementById('tglSuspend').value,
     namaKppg: document.getElementById('namaKppg').value,
-    noND: document.getElementById('noND').value,
-    tglND: document.getElementById('tglND').value,
-    sppgList: window.sppgList
+    sppgList: window.sppgList,
+    dasarList: window.dasarList
   };
 
   const html = buildLetterHtmlFull(data);
@@ -110,9 +138,11 @@ window.downloadWord = function downloadWord() {
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     window.renderSppgRows();
+    window.renderDasarRows();
     window.render();
   });
 } else {
   window.renderSppgRows();
+  window.renderDasarRows();
   window.render();
 }
