@@ -115,6 +115,15 @@ export function buildLetterHtml(data) {
   let mainContent = '';
   const dasarHtml = `<ol class="sub">\n            ${(data.dasarList || []).map(text => `<li>${fieldOrPlaceholder(text, 'Teks dasar kosong')}</li>`).join('\n            ')}\n          </ol>`;
 
+  const kategori = data.kategoriSurat && data.kategoriSurat !== 'Tidak Ada' 
+    ? data.kategoriSurat.toLowerCase() 
+    : '[Pilih Kategori]';
+
+  let jumlahHari = '[Jumlah]';
+  if (kategori === 'ringan') jumlahHari = '5 (lima)';
+  else if (kategori === 'sedang') jumlahHari = '7 (tujuh)';
+  else if (kategori === 'berat') jumlahHari = '14 (empat belas)';
+
   if (data.jenisSuratTemplate === 'teguran') {
     halStr = 'Teguran Pelanggaran';
     mainContent = `
@@ -148,7 +157,7 @@ export function buildLetterHtml(data) {
           </table>
           mengalami Kejadian Fatal (KF) <b>[Uraikan kejadian fatal di sini]</b> pada penerima manfaat karena konsumsi Makan Bergizi Gratis (MBG) sebanyak <b>[Jumlah]</b> orang.
         </li>
-        <li>Mempertimbangkan risiko yang dapat ditimbulkan terhadap kelanjutan operasionalisasi SPPG, maka dengan ini ditetapkan Pemberhentian Operasional Sementara terhadap SPPG dimaksud dengan kategori sanksi <b>ringan/sedang/berat</b> dan pemberhentian seluruh hak operasionalnya dengan jangka waktu maksimal <b>[Jumlah]</b> hari kalender, terhitung mulai dari tanggal surat ini dikeluarkan.</li>
+        <li>Mempertimbangkan risiko yang dapat ditimbulkan terhadap kelanjutan operasionalisasi SPPG, maka dengan ini ditetapkan Pemberhentian Operasional Sementara terhadap SPPG dimaksud dengan kategori sanksi <b>${kategori}</b> dan pemberhentian seluruh hak operasionalnya dengan jangka waktu maksimal <b>${jumlahHari}</b> hari kalender, terhitung mulai dari tanggal surat ini dikeluarkan.</li>
         <li>Kepala SPPG diwajibkan menyelesaikan seluruh proses pembayaran yang menggunakan <i>Virtual Account</i> (VA) dalam waktu 1x24 jam untuk periode operasional sebelum dikeluarkannya surat ini.</li>
         <li>Kepala SPPG dan Perwakilan Yayasan bertanggungjawab memperbaiki hal-hal yang berisiko mengganggu keamanan pangan dan keselamatan penerima manfaat dalam jangka waktu yang telah ditetapkan. Progres pemenuhan perbaikan dilaporkan Kepala SPPG kepada Kepala KPPG setiap 7 (tujuh) hari kalender selama masa pemberhentian operasional sementara.</li>
         <li>Jika di kemudian hari ditemukan adanya kekeliruan dan ketidaksesuaian dalam proses penerbitan surat ini maka surat ini dapat ditinjau kembali sesuai dengan ketentuan yang berlaku.</li>
@@ -164,7 +173,7 @@ export function buildLetterHtml(data) {
           ${dasarHtml}
         </li>
         <li>Sehubungan dengan dasar tersebut di atas, ditemukan bahwa SPPG terlampir tidak menindaklanjuti rekomendasi perbaikan sesuai dengan batas waktu yang telah ditentukan. Sesuaikan dengan permasalahan SPPG di ND.</li>
-        <li>Mempertimbangkan risiko yang dapat ditimbulkan terhadap kelanjutan operasionalisasi SPPG, maka dengan ini ditetapkan Pemberhentian Operasional Sementara terhadap SPPG dimaksud dengan kategori sanksi <b>ringan/sedang/berat</b> dengan jangka waktu maksimal <b>[Jumlah (misal: sepuluh)]</b> hari terhitung mulai dari tanggal surat ini dikeluarkan.</li>
+        <li>Mempertimbangkan risiko yang dapat ditimbulkan terhadap kelanjutan operasionalisasi SPPG, maka dengan ini ditetapkan Pemberhentian Operasional Sementara terhadap SPPG dimaksud dengan kategori sanksi <b>${kategori}</b> dengan jangka waktu maksimal <b>${jumlahHari}</b> hari terhitung mulai dari tanggal surat ini dikeluarkan.</li>
         <li>Kepala SPPG diwajibkan menyelesaikan seluruh proses pembayaran yang menggunakan <i>Virtual Account</i> (VA) dalam waktu 1x24 jam untuk periode operasional sebelum dikeluarkannya surat ini.</li>
         <li>Pencabutan status pemberhentian operasional sementara hanya dapat dilakukan setelah diserahkannya bukti perbaikan serta dokumen pendukung yang sah dan telah diverifikasi oleh Kepala KPPG kepada Deputi Bidang Pemantauan dan Pengawasan.</li>
         <li>Apabila hingga batas waktu sanksi berakhir SPPG belum menyampaikan bukti perbaikan dan dokumen pendukung yang sah, maka akan diberlakukan eskalasi kategori sanksi secara otomatis.</li>
@@ -181,7 +190,7 @@ export function buildLetterHtml(data) {
           ${dasarHtml}
         </li>
         <li>Sehubungan dengan dasar tersebut di atas, ditemukan bahwa SPPG terlampir tidak menindaklanjuti rekomendasi perbaikan sesuai dengan batas waktu yang telah ditentukan.</li>
-        <li>Maka dengan ini ditetapkan Eskalasi Pemberhentian Operasional Sementara terhadap SPPG dimaksud dari kategori sanksi <b>ringan/sedang/berat</b> menjadi kategori sanksi <b>sedang/berat</b> dengan jangka waktu perbaikan <b>[Jumlah]</b> hari terhitung mulai dari tanggal surat ini dikeluarkan.</li>
+        <li>Maka dengan ini ditetapkan Eskalasi Pemberhentian Operasional Sementara terhadap SPPG dimaksud menjadi kategori sanksi <b>${kategori}</b> dengan jangka waktu perbaikan <b>${jumlahHari}</b> hari terhitung mulai dari tanggal surat ini dikeluarkan.</li>
         <li>Kepala SPPG diwajibkan menyelesaikan seluruh proses pembayaran yang menggunakan <i>Virtual Account</i> (VA) dalam waktu 1x24 jam untuk periode operasional sebelum dikeluarkannya surat ini.</li>
         <li>Pencabutan status pemberhentian operasional sementara hanya dapat dilakukan setelah diserahkannya bukti perbaikan serta dokumen pendukung yang sah dan telah diverifikasi oleh Kepala KPPG kepada Deputi Bidang Pemantauan dan Pengawasan.</li>
         <li>Apabila hingga batas waktu sanksi berakhir SPPG belum menyampaikan bukti perbaikan dan dokumen pendukung yang sah, maka akan diberlakukan eskalasi kategori sanksi secara otomatis.</li>
@@ -198,7 +207,7 @@ export function buildLetterHtml(data) {
         <li>Dasar:
           ${dasarHtml}
         </li>
-        <li>Menindaklanjuti hasil verifikasi Kepala KPPG terkait pelanggaran <b>[ringan/sedang/berat]</b> yang dilakukan, SPPG terlampir dinyatakan <b>Telah Memenuhi</b> seluruh rekomendasi perbaikan yang dipersyaratkan.</li>
+        <li>Menindaklanjuti hasil verifikasi Kepala KPPG terkait pelanggaran <b>${kategori}</b> yang dilakukan, SPPG terlampir dinyatakan <b>Telah Memenuhi</b> seluruh rekomendasi perbaikan yang dipersyaratkan.</li>
         <li>Terhitung mulai dari tanggal surat ini dikeluarkan, status <b>Pemberhentian Operasional Sementara DICABUT</b> dan dinyatakan dapat beroperasi kembali secara normal dengan segala hak operasionalnya sesuai peraturan perundang-undangan yang berlaku.</li>
         <li>Dalam rangka penegakan integritas dan tata kelola pemerintahan yang bersih, seluruh jajaran Kedeputian Bidang Pemantauan dan Pengawasan dalam menjalankan tugas dan fungsinya <b>tidak menerima dan tidak meminta imbalan, hadiah, atau gratifikasi dalam bentuk apapun</b>. Seluruh layanan dan proses administrasi dilaksanakan secara profesional, transparan, dan bebas dari biaya.</li>
         <li>Demikian Surat Pencabutan Pemberhentian Operasional Sementara ini disampaikan untuk segera ditindaklanjuti.</li>
