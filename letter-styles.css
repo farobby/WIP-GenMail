@@ -31,6 +31,11 @@
   .note{font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.5;}
   .badge{display:inline-block;font-size:10.5px;background:#fdf3de;color:#8a6414;border:1px solid #eddba7;padding:2px 8px;border-radius:20px;margin-left:6px;}
 
+  .sppg-card{border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:10px;background:#fafbfc;position:relative;}
+  .sppg-card .sppg-title{font-size:11.5px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+  .sppg-card .remove-row{position:absolute;top:8px;right:8px;background:#fce8e8;color:#b42318;border:1px solid #f3c6c6;border-radius:5px;font-size:11px;padding:2px 8px;flex:none;width:auto;cursor:pointer;}
+  .add-row-btn{background:#eef4ff;color:var(--navy);border:1px dashed #9db8d6;width:100%;padding:8px;border-radius:6px;font-size:12.5px;cursor:pointer;margin-top:4px;}
+
   .preview-scroller{display:flex;flex-direction:column;align-items:center;gap:26px;}
   .toolbar-row{width:793px;display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);margin-bottom:-6px;}
   .sheet{
@@ -45,6 +50,7 @@
     line-height:1.15;
     color:#111;
   }
+  .sheet.landscape{width:1122px;min-height:793px;}
   .page-number{position:absolute;top:38px;left:0;right:0;text-align:center;font-size:11pt;color:#222;}
   .kop{display:flex;gap:16px;align-items:center;padding-bottom:10px;margin-bottom:6px;}
   .kop img.crest{width:78px;height:78px;flex-shrink:0;object-fit:contain;}
@@ -74,10 +80,15 @@
   .tembusan ol{margin:6px 0 0 22px;padding:0;}
   .lampiran-head{text-align:right;font-size:11pt;margin-bottom:14px;}
   .lampiran-title{text-align:center;font-weight:700;font-size:11pt;margin-bottom:12px;}
+
+  @page { size:A4; margin:1in; }
+  @page landscape-page { size:A4 landscape; margin:1in; }
+
   @media print{
     body{background:#fff;}
     .topbar,.panel,.toolbar-row{display:none !important;}
     .layout{display:block;padding:0;}
     .preview-scroller{gap:0;}
-    .sheet{box-shadow:none;margin:0;page-break-after:always;}
+    .sheet{box-shadow:none;margin:0;page-break-after:always;page:auto;}
+    .sheet.landscape{page:landscape-page;}
   }

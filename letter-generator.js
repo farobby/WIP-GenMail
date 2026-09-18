@@ -53,21 +53,23 @@ export function frasaKategori(kategori) {
 }
 
 // ---------- Data shape ----------
-/**
+ * @typedef {Object} SppgItem
+ * @property {string} nama
+ * @property {string} id
+ * @property {string} yayasan
+ * @property {string} tglOperasional
+ * @property {string} jenis
+ * 
  * @typedef {Object} SuratPencabutanData
  * @property {string} tglSurat        - ISO date, contoh "2026-09-10"
- * @property {string} namaSppg
- * @property {string} idSppg
- * @property {string} namaYayasan
  * @property {string} provinsi
- * @property {string} tglOperasional  - sudah dalam format teks Indonesia, contoh "25 Februari 2026"
- * @property {'KM'|'KF'} jenisSurat
  * @property {'Tidak Ada'|'Ringan'|'Sedang'|'Berat'} kategoriSurat
  * @property {string} noSuspend
  * @property {string} tglSuspend
  * @property {string} namaKppg
  * @property {string} noND
  * @property {string} tglND
+ * @property {SppgItem[]} sppgList    - array data SPPG
  * @property {string} [logoSrc]       - path/URL logo BGN, default "/logo-bgn.png"
  */
 
@@ -78,12 +80,7 @@ export function frasaKategori(kategori) {
  */
 export function buildLetterHtml(data) {
   const tglSurat = data.tglSurat ? formatTanggalIndo(data.tglSurat) : '<span class="placeholder-fill">[tanggal surat]</span>';
-  const namaSppg = fieldOrPlaceholder(data.namaSppg, 'nama SPPG');
-  const idSppg = fieldOrPlaceholder(data.idSppg, 'ID SPPG');
-  const namaYayasan = fieldOrPlaceholder(data.namaYayasan, 'nama yayasan');
   const provinsi = fieldOrPlaceholder(data.provinsi, 'provinsi');
-  const tglOperasional = fieldOrPlaceholder(data.tglOperasional, 'tanggal operasional');
-  const jenis = data.jenisSurat || 'KM';
   const noSuspend = fieldOrPlaceholder(data.noSuspend, 'nomor surat suspend');
   const tglSuspend = fieldOrPlaceholder(data.tglSuspend, 'tanggal surat suspend');
   const namaKppg = fieldOrPlaceholder(data.namaKppg, 'KPPG');
@@ -91,6 +88,13 @@ export function buildLetterHtml(data) {
   const tglND = fieldOrPlaceholder(data.tglND, 'tanggal Nota Dinas');
   const logoSrc = data.logoSrc || '/logo-bgn.png';
   const frasa = frasaKategori(data.kategoriSurat);
+  const sppgList = data.sppgList || [];
+  const isMulti = sppgList.length > 1;
+  const firstNama = fieldOrPlaceholder(sppgList[0] ? sppgList[0].nama : '', 'nama SPPG');
+
+  const ythLine = isMulti
+    ? `Para Kepala Satuan Pelayanan Pemenuhan Gizi (SPPG) <span class="placeholder-fill">(Daftar Terlampir)</span>`
+    : `Kepala Satuan Pelayanan Pemenuhan Gizi (SPPG) ${firstNama}`;
 
   const kop = `
     <div class="kop">
@@ -120,7 +124,7 @@ export function buildLetterHtml(data) {
       </div>
       <div class="yth">
         Yth.<br>
-        Kepala Satuan Pelayanan Pemenuhan Gizi (SPPG) ${namaSppg}<br>
+        ${ythLine}<br>
         di Provinsi ${provinsi}
       </div>
       <ol class="main">
@@ -129,7 +133,7 @@ export function buildLetterHtml(data) {
             <li>Keputusan Kepala Badan Gizi Nasional Nomor 401.1 Tahun 2025 tentang Petunjuk Teknis Tata Kelola Penyelenggaraan Program Makan Bergizi Gratis (MBG) Tahun 2026;</li>
             <li>Keputusan Kepala Badan Gizi Nasional Republik Indonesia Nomor 63486 Tahun 2026 tentang Petunjuk Teknis Pengenaan Sanksi pada Satuan Pelayanan Pemenuhan Gizi;</li>
             <li>Surat Deputi Bidang Pemantauan dan Pengawasan Nomor ${noSuspend} tanggal ${tglSuspend} hal Pemberhentian Operasional Sementara (Suspend);</li>
-            <li>Nota Dinas Kepala Kantor Pelayanan Pemenuhan Gizi ${namaKppg} Nomor ${noND} tanggal ${tglND} hal Permohonan Operasional Kembali SPPG ${namaSppg} (ID# ${idSppg}).</li>
+            <li>Nota Dinas Kepala Kantor Pelayanan Pemenuhan Gizi ${namaKppg} Nomor ${noND} tanggal ${tglND} hal Permohonan Operasional Kembali SPPG ${isMulti ? '(Daftar Terlampir)' : firstNama}.</li>
           </ol>
         </li>
         <li>Menindaklanjuti hasil verifikasi Kepala KPPG ${frasa}, SPPG terlampir dinyatakan <b>Telah Memenuhi</b> seluruh rekomendasi perbaikan yang dipersyaratkan.</li>
@@ -163,8 +167,18 @@ export function buildLetterHtml(data) {
       </div>
     </div>`;
 
+  const rows = sppgList.map((row, i) => `
+    <tr>
+      <td>${i + 1}.</td>
+      <td>SPPG ${fieldOrPlaceholder(row.nama, 'nama SPPG')}</td>
+      <td>${fieldOrPlaceholder(row.id, 'ID')}</td>
+      <td>${fieldOrPlaceholder(row.yayasan, 'yayasan')}</td>
+      <td>${fieldOrPlaceholder(row.tglOperasional, 'tgl operasional')}</td>
+      <td>${row.jenis || 'KM'}</td>
+    </tr>`).join('');
+
   const page3 = `
-    <div class="sheet">
+    <div class="sheet ${isMulti ? 'landscape' : ''}">
       <div class="page-number">3</div>
       <div class="lampiran-head" style="margin-top:60px;">
         Lampiran Surat Deputi Bidang<br>
@@ -175,7 +189,7 @@ export function buildLetterHtml(data) {
       <div class="lampiran-title">SPPG YANG DICABUT PEMBERHENTIAN OPERASIONAL SEMENTARA</div>
       <table class="lampiran">
         <tr><th>No.</th><th>Nama SPPG</th><th>ID SPPG</th><th>Nama Yayasan</th><th>Tanggal Operasional</th><th>Kategori</th></tr>
-        <tr><td>1.</td><td>SPPG ${namaSppg}</td><td>${idSppg}</td><td>${namaYayasan}</td><td>${tglOperasional}</td><td>${jenis}</td></tr>
+        ${rows}
       </table>
       <div class="sign-block">
         <div class="role">Deputi Bidang Pemantauan dan Pengawasan,</div>
