@@ -107,8 +107,8 @@ export function buildLetterHtml(data) {
         </td>
       </tr>
     </table>
-    <div class="kop-rule"></div>
-    <div class="kop-rule second"></div>
+    <hr style="border:none; border-top:2px solid #5c7a92; margin:4px 0 2px 0;">
+    <hr style="border:none; border-top:2px solid #5c7a92; margin:0 0 14px 0;">
   `;
 
   const ythDiv = `
@@ -230,7 +230,7 @@ export function buildLetterHtml(data) {
           <tr>
             <td style="width:82px; vertical-align:top;">Nomor</td>
             <td style="width:12px; vertical-align:top;">:</td>
-            <td style="vertical-align:top;">\${nomor_naskah}</td>
+            <td style="vertical-align:top;"></td>
             <td style="text-align:right; vertical-align:top;">Jakarta, ${tglSurat}</td>
           </tr>
           <tr>
@@ -260,7 +260,7 @@ export function buildLetterHtml(data) {
         <td style="width:55%;"></td>
         <td style="width:45%; text-align:left; vertical-align:top;">
           <div class="role" style="margin-bottom:56px;">Deputi Bidang Pemantauan dan Pengawasan,</div>
-          <div>\${ttd_pengirim}</div>
+          <div style="height:56px;"></div>
           <div style="margin-top:6px;"><b>Dr. Ketut Sumedana</b></div>
         </td>
       </tr>
@@ -305,7 +305,7 @@ export function buildLetterHtml(data) {
             Lampiran Surat Deputi Bidang<br>
             Pemantauan dan Pengawasan<br>
             <table style="width:100%; border-collapse:collapse;">
-              <tr><td style="width:60px;">Nomor</td><td style="width:12px;">:</td><td>\${nomor_naskah}</td></tr>
+              <tr><td style="width:60px;">Nomor</td><td style="width:12px;">:</td><td></td></tr>
               <tr><td>Tanggal</td><td>:</td><td>${tglSurat}</td></tr>
             </table>
           </td>

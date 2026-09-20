@@ -1,4 +1,4 @@
-import { buildLetterHtmlFull } from './letter-generator.js?v=2';
+import { buildLetterHtmlFull } from './letter-generator.js?v=3';
 
 const KPPG_MAP = {
   "Sumatera Utara": "Medan",
@@ -145,31 +145,80 @@ window.render = function render() {
 };
 
 window.downloadWord = function downloadWord() {
+  const jenis = document.getElementById('jenisSuratTemplate').value;
   const area = document.getElementById('previewArea');
+  const sheets = Array.from(area.querySelectorAll('.sheet'));
 
-  // Karena export Word membutuhkan inline styling atau block <style>,
-  // kita fetch css-nya lalu diembed langsung sebelum convert blob
-  fetch('letter-styles.css')
-    .then(res => res.text())
-    .then(css => {
-      // Hanya ambil elemen dengan class .sheet (buang toolbar dll)
-      const sheets = Array.from(area.querySelectorAll('.sheet')).map(el => el.outerHTML).join('\\n<br style="page-break-before: always; clear: both;" />\\n');
-      
-      const fullHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${sheets}</body></html>`;
-      const converted = window.htmlDocx.asBlob(fullHtml);
-      const url = URL.createObjectURL(converted);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'Surat_Pemberhentian_Operasional_Sementara.docx';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    })
-    .catch(err => {
-      console.error('Failed to fetch CSS for Word download:', err);
-      alert('Gagal mengunduh dokumen dengan gaya (style). Pastikan Anda mengakses aplikasi ini via local server (http://localhost) untuk menghindari CORS Error.');
+  if (!sheets.length) {
+    alert('Belum ada pratinjau. Klik "Perbarui Pratinjau" terlebih dahulu.');
+    return;
+  }
+
+  // CSS yang di-inline langsung agar html-docx-js bisa membaca styling
+  const css = `
+    body { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; line-height: 1.15; color: #111; margin: 0; }
+    table { border-collapse: collapse; width: 100%; }
+    td, th { vertical-align: top; }
+    ol { margin: 0; padding-left: 26px; }
+    ol > li { margin-bottom: 10px; text-align: justify; }
+    ol.sub { list-style-type: lower-alpha; padding-left: 24px; }
+    ol.sub > li { margin-bottom: 7px; }
+    hr.kop-rule { border: none; border-top: 1.5px solid #8296a6; margin: 4px 0; }
+    .org-name { font-weight: bold; font-size: 13.5pt; color: #5c7a92; }
+    .org-addr { font-size: 10pt; color: #555; margin-top: 2px; }
+    .yth { margin-bottom: 14px; }
+    .placeholder-fill { color: #b45309; font-weight: 600; }
+    table.lampiran th, table.lampiran td { border: 1px solid #111; padding: 6px 8px; text-align: center; }
+    .tembusan { margin-top: 20px; }
+    .tembusan ol { margin: 6px 0 0 22px; padding: 0; }
+    .lampiran-title { text-align: center; font-weight: bold; margin-bottom: 12px; }
+    b { font-weight: bold; }
+    i { font-style: italic; }
+  `;
+
+  // Ambil HTML dari setiap .sheet, gabungkan dengan page break
+  const combinedBody = sheets.map((sheet) => {
+    const clone = sheet.cloneNode(true);
+    // Hapus class dan style positioning dari .sheet agar tidak mengganggu layout Word
+    clone.className = '';
+    clone.style.cssText = '';
+    return clone.outerHTML;
+  }).join('<br style="page-break-before: always; clear: both;" />');
+
+  const fullHtml = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>${css}</style>
+</head>
+<body>
+${combinedBody}
+</body>
+</html>`;
+
+  try {
+    // htmlDocx adalah nama global yang diekspos oleh html-docx-js
+    const converted = htmlDocx.asBlob(fullHtml, {
+      orientation: 'portrait',
+      margins: {
+        top: 1440,     // 1 inch = 1440 twips
+        right: 1440,
+        bottom: 1440,
+        left: 1440,
+      }
     });
+    const url = URL.createObjectURL(converted);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Surat_${jenis}.docx`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+    alert('Gagal mengunduh: ' + err.message);
+  }
 };
 
 // Initial render
