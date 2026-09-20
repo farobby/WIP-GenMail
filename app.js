@@ -221,6 +221,29 @@ ${combinedBody}
   }
 };
 
+window.downloadPdf = function downloadPdf() {
+  const jenis = document.getElementById('jenisSuratTemplate').value;
+  const element = document.getElementById('previewArea');
+  
+  // Clone element to remove the toolbar row before exporting
+  const clone = element.cloneNode(true);
+  const toolbar = clone.querySelector('.toolbar-row');
+  if (toolbar) toolbar.remove();
+
+  // html2pdf options
+  const opt = {
+    margin:       [15, 0, 15, 0], // Top, Right, Bottom, Left margins (approx 15mm)
+    filename:     `Surat_${jenis}.pdf`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2, useCORS: true },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak:    { mode: 'css', avoid: 'tr' }
+  };
+
+  // Convert the cleaned clone to PDF
+  html2pdf().set(opt).from(clone).save();
+};
+
 // Initial render
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {

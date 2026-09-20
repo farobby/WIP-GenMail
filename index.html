@@ -82,18 +82,21 @@
 
       <div class="actions">
         <button type="button" class="btn-primary" onclick="render()">Perbarui Pratinjau</button>
-        <button type="button" class="btn-secondary" onclick="window.print()">Cetak / PDF</button>
+        <button type="button" class="btn-secondary" onclick="window.print()">Cetak</button>
       </div>
       <div class="actions">
         <button type="button" class="btn-green" onclick="downloadWord()">Unduh Word (.doc)</button>
+        <button type="button" class="btn-red" style="background-color: #dc2626; color: white; padding: 10px 14px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;" onclick="downloadPdf()">Unduh PDF (.pdf)</button>
       </div>
       <p class="note">Ukuran halaman A4 (210×297mm), margin 1 inci di semua sisi, font Arial 11pt, spasi 1.15 — sesuai template resmi BGN.</p>
+      <p class="note" style="color: #0284c7; font-weight: bold;">💡 Tip: Anda dapat mengklik kalimat di area pratinjau untuk mengubahnya, atau melakukan potong-tempel (cut-paste) untuk memindahkan teks antar halaman.</p>
     </form>
   </div>
 
   <div class="preview-scroller" id="previewArea"></div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html-docx-js@0.3.1/dist/html-docx.js"></script>
 <script type="module" src="app.js?v=3"></script>
 </body>

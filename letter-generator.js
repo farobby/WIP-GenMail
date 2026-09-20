@@ -223,7 +223,7 @@ export function buildLetterHtml(data) {
   }
 
   const page1 = `
-    <div class="sheet">
+    <div class="sheet" contenteditable="true">
       ${kop}
       <div class="meta" style="margin-bottom: 14px;">
         <table style="width:100%; border-collapse:collapse; font-size:11pt;">
@@ -268,7 +268,7 @@ export function buildLetterHtml(data) {
   `;
 
   const page2 = `
-    <div class="sheet">
+    <div class="sheet" contenteditable="true">
       <p style="text-align:center; font-size:11pt; margin-bottom: 40px;">- 2 -</p>
       ${signBlockTable}
       <div class="tembusan">
@@ -296,7 +296,7 @@ export function buildLetterHtml(data) {
     </tr>`).join('');
 
   const page3 = `
-    <div class="sheet ${isMulti ? 'landscape' : ''}">
+    <div class="sheet ${isMulti ? 'landscape' : ''}" contenteditable="true">
       <p style="text-align:center; font-size:11pt; margin-bottom: 40px;">- 3 -</p>
       <table style="width:100%; border-collapse:collapse; margin-bottom:14px; font-size:11pt;">
         <tr>
