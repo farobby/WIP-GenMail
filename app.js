@@ -230,14 +230,29 @@ window.downloadPdf = function downloadPdf() {
   const toolbar = clone.querySelector('.toolbar-row');
   if (toolbar) toolbar.remove();
 
+  // Remove spacing/shadows so it looks like a clean document
+  clone.style.gap = '0'; // Remove the gap between sheets
+  
+  const sheets = clone.querySelectorAll('.sheet');
+  sheets.forEach((sheet, index) => {
+    sheet.style.boxShadow = 'none';
+    sheet.style.margin = '0';
+    // Remove forced height to prevent overflow to next page
+    sheet.style.minHeight = 'auto';
+    // Add page break after each sheet (except the last one)
+    if (index < sheets.length - 1) {
+      sheet.style.pageBreakAfter = 'always';
+    }
+  });
+
   // html2pdf options
   const opt = {
-    margin:       [15, 0, 15, 0], // Top, Right, Bottom, Left margins (approx 15mm)
+    margin:       0, // We set 0 because the .sheet already has 96px internal padding
     filename:     `Surat_${jenis}.pdf`,
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { scale: 2, useCORS: true },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak:    { mode: 'css', avoid: 'tr' }
+    pagebreak:    { mode: 'css' }
   };
 
   // Convert the cleaned clone to PDF
